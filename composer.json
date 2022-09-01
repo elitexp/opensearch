@@ -1,0 +1,18 @@
+{
+    "name": "elitexp/opensearch",
+    "description": "Custom Laravel Scout OpenSearch Engine",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sujip Maharjan",
+            "email": "elitexp2008@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Elitexp\\OpenSearch\\" : "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
