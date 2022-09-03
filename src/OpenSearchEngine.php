@@ -49,9 +49,10 @@ class OpenSearchEngine extends Engine
 
         if (! empty($objects)) {
             foreach($objects as $object){
-                $response = Http::withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
-                    ->withOptions(["verify"=>false])
-                	->post($this->url . '/' . $index . '/_doc/' . $object['id'], $object);
+                $response = Http::withoutVerifying()
+                        ->withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
+                        ->withOptions(["verify"=>false])
+                    	->post($this->url . '/' . $index . '/_doc/' . $object['id'], $object);
                 $res = json_decode($response, true);
             }
         }
@@ -66,9 +67,10 @@ class OpenSearchEngine extends Engine
         })->values()->all();
 
         foreach($ids as $id){
-            $response = Http::withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
-                ->withOptions(["verify"=>false])
-            	->delete($this->url . '/' . $index . '/_doc/' . $id);
+            $response = Http::withoutVerifying()
+                    ->withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
+                    ->withOptions(["verify"=>false])
+                	->delete($this->url . '/' . $index . '/_doc/' . $id);
             self::errors($response);
         }
     }
@@ -85,8 +87,10 @@ class OpenSearchEngine extends Engine
         }
 
         $url = $this->url . '/' . $builder->model->searchableAs() . '/_search';
-        $response = Http::withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
-        	->post($url, $this->body($builder, $options));
+        $response = Http::withoutVerifying()
+                    ->withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
+                    ->withOptions(["verify"=>false])
+                    ->post($url, $this->body($builder, $options));
         self::errors($response);
 
         return $response->json('hits');
@@ -185,9 +189,10 @@ class OpenSearchEngine extends Engine
 
     public function deleteIndex($name)
     {
-        $response = Http::withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
-            ->withOptions(["verify"=>false])
-        	->delete($this->url . '/' . $name);
+        $response = Http::withoutVerifying()
+                    ->withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
+                    ->withOptions(["verify"=>false])
+                	->delete($this->url . '/' . $name);
         if($response->status() != 200){
         	throw new Exception($response->reason());
         }
