@@ -49,7 +49,7 @@ class OpenSearchEngine extends Engine
 
         if (! empty($objects)) {
             foreach($objects as $object){
-                $response = Http::withoutVerifying()
+                $response =Http::withoutVerifying()
                         ->withBasicAuth(config('scout.opensearch.user'), config('scout.opensearch.pass'))
                         ->withOptions(["verify"=>false])
                     	->post($this->url . '/' . $index . '/_doc/' . $object['id'], $object);
